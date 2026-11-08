@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hugo Gleyze – Portfolio</title>
+<meta name="description" content="Hugo Gleyze, étudiant ingénieur en mécanique des fluides (CFD marine et offshore) : projets, stages et CV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --foam:#e8f6f4; --surf:#7fd1cf; --teal:#0e7c8a;
+  --d1:#0d5870; --d2:#0a4560; --d3:#07334d; --d4:#052338;
+  --sand:#f2e3c4; --ink:#06303f;
+  --head:"Bricolage Grotesque","Trebuchet MS",sans-serif;
+  --body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);font-size:1.1rem;line-height:1.6;color:var(--foam);background:var(--d4)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sand);outline-offset:3px}
+h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0}
+.wrap{max-width:960px;margin:0 auto;padding:0 1.5rem}
+
+/* Accueil : la surface */
+.hero{background:linear-gradient(var(--foam),var(--surf));color:var(--ink);padding:5rem 0 0;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(2.8rem,9vw,6rem);font-weight:800;letter-spacing:-.02em}
+.hero p.lead{font-size:1.3rem;max-width:34rem;margin:1.2rem 0 2rem}
+.btns{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-block;padding:.75rem 1.4rem;border-radius:999px;font-weight:600;text-decoration:none;background:var(--ink);color:var(--foam);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.alt{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+.waves{display:block;width:100%;height:120px;margin-top:3rem}
+.waves .w{animation:drift 14s linear infinite}
+.waves .w2{animation-duration:22s;animation-direction:reverse}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+nav{position:sticky;top:0;z-index:5;background:rgba(5,35,56,.92);backdrop-filter:blur(6px)}
+nav ul{list-style:none;margin:0 auto;padding:.7rem 1.5rem;max-width:960px;display:flex;gap:1.4rem;flex-wrap:wrap;font-family:var(--head);font-weight:500}
+nav a{text-decoration:none;opacity:.85}
+nav a:hover{opacity:1;text-decoration:underline}
+
+/* Sections : on descend */
+section{padding:5rem 0;position:relative}
+#projets{background:var(--d1)} #stages{background:var(--d2)}
+#interets{background:var(--d3)} #cv{background:var(--d4)}
+.depth{font-family:var(--head);font-size:.95rem;color:var(--surf);margin:0 0 .6rem}
+section h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:2rem}
+
+/* Projets */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.6rem}
+.proj{display:flex;flex-direction:column;background:rgba(255,255,255,.05);border:1px solid rgba(127,209,207,.25);border-radius:16px;overflow:hidden}
+.cover{aspect-ratio:16/9;background:linear-gradient(135deg,var(--teal),var(--d3));display:grid;place-items:center;overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover svg{width:56px;opacity:.5}
+.proj-body{padding:1.2rem 1.3rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;flex:1}
+.proj h3{font-size:1.35rem}
+.proj p{margin:0;opacity:.9}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.tags span{font-size:.85rem;padding:.15rem .7rem;border-radius:999px;background:rgba(127,209,207,.18)}
+.more{margin-top:auto;align-self:flex-start;font:inherit;font-weight:600;cursor:pointer;padding:.55rem 1.2rem;border-radius:999px;border:2px solid var(--surf);background:transparent;color:var(--foam);transition:background .2s,color .2s}
+.more:hover{background:var(--surf);color:var(--ink)}
+
+/* Fenêtre de détail + carrousel */
+body:has(dialog[open]){overflow:hidden}
+dialog{width:min(860px,92vw);max-height:92vh;padding:0;border:1px solid rgba(127,209,207,.4);border-radius:18px;background:var(--d4);color:var(--foam);overflow:auto}
+dialog::backdrop{background:rgba(3,21,33,.82)}
+.m-close{position:absolute;top:.7rem;right:.7rem;z-index:3;width:2.6rem;height:2.6rem;border-radius:50%;border:0;font-size:1.6rem;line-height:1;cursor:pointer;background:var(--sand);color:var(--ink)}
+.carousel{position:relative;background:#031521}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.slide{flex:0 0 100%;scroll-snap-align:center;height:min(52vh,440px);display:grid;place-items:center}
+.slide img,.slide video{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.slide.ph{background:linear-gradient(135deg,var(--teal),var(--d3));text-align:center;padding:1rem}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:2.8rem;height:2.8rem;border-radius:50%;border:0;font-size:1.8rem;line-height:1;cursor:pointer;background:rgba(242,227,196,.92);color:var(--ink)}
+.nav.prev{left:.7rem}.nav.next{right:.7rem}
+.count{position:absolute;bottom:.6rem;left:50%;transform:translateX(-50%);margin:0;font-size:.9rem;padding:.1rem .8rem;border-radius:999px;background:rgba(5,35,56,.8)}
+.m-text{padding:1.4rem 1.6rem 1.8rem}
+.m-text h3{font-size:1.8rem;margin-bottom:.8rem}
+.m-text p{margin:.8rem 0}
+.m-text a{color:var(--sand)}
+
+/* Stages : vraie chronologie */
+.timeline{list-style:none;margin:0;padding:0 0 0 1.6rem;border-left:2px solid var(--surf)}
+.timeline li{position:relative;padding-bottom:2.4rem}
+.timeline li::before{content:"";position:absolute;left:calc(-1.6rem - 7px);top:.45rem;width:12px;height:12px;border-radius:50%;background:var(--sand)}
+.timeline time{font-size:.95rem;color:var(--surf)}
+.timeline h3{font-size:1.4rem;margin:.1rem 0 .3rem}
+.timeline p{margin:.2rem 0;max-width:42rem;opacity:.92}
+
+/* Centres d’intérêt */
+.pills{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
+.pills span{padding:.5rem 1.2rem;border-radius:999px;background:var(--teal);font-family:var(--head);font-weight:500}
+.pills .big{font-size:1.7rem;padding:.7rem 1.6rem;background:var(--sand);color:var(--ink)}
+.pills .mid{font-size:1.3rem;background:var(--surf);color:var(--ink)}
+
+/* CV */
+.cv-box{max-width:36rem}
+.cv-box ul{padding-left:1.2rem}
+.cv-box .btn{background:var(--sand);color:var(--ink);margin-top:1rem}
+
+.cv-box{max-width:none}
+.cv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2.4rem}
+.cv-grid h3{font-size:1.25rem;margin-bottom:.6rem;color:var(--sand)}
+.cv-grid ul{list-style:none;padding:0;margin:0}
+.cv-grid li{margin-bottom:.8rem}
+.cv-grid small{display:block;opacity:.8}
+footer{background:#031521;padding:2rem 0;text-align:center;font-size:.95rem;opacity:.9}
+footer a{margin:0 .6rem}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .waves .w{animation:none}
+  .btn,.more{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="hero" id="accueil">
+  <div class="wrap">
+    <h1>Hugo<br>Gleyze</h1>
+    <p class="lead">Étudiant ingénieur en mécanique des fluides à SeaTech, spécialisé en CFD appliquée aux environnements marins et offshore. À la recherche d’opportunités dans l’éolien offshore.</p>
+    <div class="btns">
+      <a class="btn" href="#projets">Voir mes projets</a>
+      <a class="btn alt" href="cv.pdf" download>Télécharger mon CV</a>
+    </div>
+  </div>
+  <svg class="waves" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <g class="w w2"><path fill="#0d5870" fill-opacity=".45" d="M0 60 Q180 10 360 60 T720 60 T1080 60 T1440 60 T1800 60 T2160 60 T2520 60 T2880 60 V120 H0Z"/></g>
+    <g class="w"><path fill="#0d5870" d="M0 80 Q180 30 360 80 T720 80 T1080 80 T1440 80 T1800 80 T2160 80 T2520 80 T2880 80 V120 H0Z"/></g>
+  </svg>
+</header>
+
+<nav aria-label="Navigation principale">
+  <ul>
+    <li><a href="#projets">Projets</a></li>
+    <li><a href="#stages">Stages</a></li>
+    <li><a href="#interets">Centres d’intérêt</a></li>
+    <li><a href="#cv">CV</a></li>
+  </ul>
+</nav>
+
+<main>
+<section id="projets">
+  <div class="wrap">
+    <p class="depth">−10 m</p>
+    <h2>Projets d’école</h2>
+    <div class="grid" id="projects-grid"></div>
+  </div>
+</section>
+
+<section id="stages">
+  <div class="wrap">
+    <p class="depth">−30 m</p>
+    <h2>Stages</h2>
+    <ol class="timeline">
+      <li>
+        <time>Mai – Août 2026 · stage d’un mois</time>
+        <h3>Stage de recherche, NTNU</h3>
+        <p>Trondheim, Norvège · groupe Environmental and Fluid Mechanics</p>
+        <p>Contribution à un pipeline de visualisation reliant le solveur CFD REEF3D à Blender : réalisation et analyse de simulations hydrodynamiques, création d’effets d’écume et d’embruns procéduraux, et amélioration du code Python du pipeline (corrections, nouveaux formats).</p>
+      </li>
+      <li>
+        <time>Juillet – Août 2025</time>
+        <h3>Stage à l’accueil, ESCF Surf School</h3>
+        <p>Anglet</p>
+        <p>Relation client, pratique des langues et gestion du stress dans un environnement à fort renouvellement.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section id="interets">
+  <div class="wrap">
+    <p class="depth">−60 m</p>
+    <h2>Centres d’intérêt</h2>
+    <div class="pills">
+      <span class="big">Échecs</span>
+      <span class="mid">Course à pied</span>
+      <span class="mid">Randonnée</span>
+      <span>Club d’échecs de La Garde</span>
+      <span>Association sportive de SeaTech</span>
+    </div>
+  </div>
+</section>
+
+<section id="cv">
+  <div class="wrap cv-box">
+    <p class="depth">−100 m</p>
+    <h2>CV</h2>
+    <div class="cv-grid">
+      <div>
+        <h3>Formation</h3>
+        <ul>
+          <li><strong>2024 – aujourd’hui · SeaTech, Toulon</strong><small>Diplôme d’ingénieur, master en mécanique des fluides numérique (CFD), Eau, Air et Climat / dispersion d’un polluant atmosphérique.</small></li>
+          <li><strong>2022 – 2024 · Lycée Camille Julian, Bordeaux</strong><small>Classe préparatoire PCSI/PC, spécialité physique-chimie.</small></li>
+          <li><strong>2019 – 2022 · Lycée Sud des Landes, Tyrosse</strong><small>Baccalauréat, mention Très Bien.</small></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Compétences</h3>
+        <div class="tags"><span>OpenFOAM</span><span>REEF3D</span><span>Matlab</span><span>C</span><span>Python</span><span>Fortran90</span><span>Blender</span></div>
+        <p>Méthodes numériques : volumes finis, éléments finis, modélisation de la turbulence.</p>
+        <h3>Langues</h3>
+        <ul>
+          <li>Français : langue maternelle</li>
+          <li>Anglais : C1, TOEIC 950/990</li>
+          <li>Espagnol : B2</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Autres expériences</h3>
+        <ul>
+          <li><strong>2024 – aujourd’hui · Complétude (Anacours), Toulon</strong><small>Soutien scolaire en maths et en physique pour collégiens et lycéens.</small></li>
+          <li><strong>2018 – 2019 · Bénévolat, Ondres</strong><small>Cofondateur et trésorier d’une association de jeunes qui collectait des fonds pour les vacances d’enfants défavorisés.</small></li>
+        </ul>
+        <a class="btn" href="cv.pdf" download>Télécharger le CV en PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <a href="mailto:hugo.gleyze@laposte.net">hugo.gleyze@laposte.net</a>
+  <a href="https://www.linkedin.com/in/hugo-gleyze-2954aa345/">LinkedIn</a>
+</footer>
+
+
+<dialog id="modal" aria-labelledby="m-title">
+  <button class="m-close" id="m-close" aria-label="Fermer">×</button>
+  <div class="carousel">
+    <div class="track" id="track" tabindex="0" role="group" aria-label="Images du projet"></div>
+    <button class="nav prev" id="prev" aria-label="Image précédente">‹</button>
+    <button class="nav next" id="next" aria-label="Image suivante">›</button>
+    <p class="count" id="count" aria-live="polite"></p>
+  </div>
+  <div class="m-text">
+    <h3 id="m-title"></h3>
+    <div class="tags" id="m-tags"></div>
+    <div id="m-body"></div>
+  </div>
+</dialog>
+
+<script>
+/* ============================================================
+   TES PROJETS : c’est ici que tu modifies le contenu.
+   Pour ajouter un projet, copie un bloc { ... }, sépare-le du
+   précédent par une virgule, et change les textes.
+
+   medias : les images (.jpg .png .webp) ou vidéos (.mp4 .webm)
+   déposées dans le dossier "images/". La première image sert de
+   couverture. Un fichier absent est simplement ignoré.
+   lien : optionnel, ex. { texte: "Voir le code", url: "https://..." }
+   ============================================================ */
+const PROJETS = [
+  {
+    titre: "Houle autour d’un obstacle",
+    resume: "Propagation et diffraction de la houle autour d’un obstacle, avec comparaison des théories d’Airy et de Stokes d’ordre 2.",
+    tags: ["OpenFOAM", "Houle", "2e année"],
+    details: [
+      "Simulation de la propagation et de la diffraction de la houle autour d’un obstacle avec OpenFOAM.",
+      "Comparaison des théories de houle d’Airy et de Stokes d’ordre 2."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/houle-obstacle-1.jpg", alt: "Surface libre autour de l’obstacle" },
+      { src: "images/houle-obstacle-2.jpg", alt: "Comparaison Airy / Stokes" }
+    ]
+  },
+  {
+    titre: "Séparation houle incidente et réfléchie",
+    resume: "Implémentation de la méthode SIRW pour séparer les composantes incidente et réfléchie de la houle.",
+    tags: ["Matlab", "Python", "2e année"],
+    details: [
+      "Implémentation de la méthode SIRW pour séparer les composantes de houle incidente et réfléchie, en Matlab et Python."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/sirw-1.jpg", alt: "Résultats de la séparation incidente / réfléchie" }
+    ]
+  },
+  {
+    titre: "Écoulement en milieu poreux hétérogène",
+    resume: "Un solveur en Python simulant l’écoulement à travers un milieu poreux grâce à la loi de Darcy.",
+    tags: ["Python", "Volumes finis", "Gmsh", "2e année"],
+    details: [
+      "Développement d’un solveur simulant l’écoulement dans un milieu poreux hétérogène grâce à la loi de Darcy.",
+      "Méthode des volumes finis en Python, avec un maillage réalisé sous Gmsh."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/poreux-1.jpg", alt: "Champ de pression dans le milieu poreux" }
+    ]
+  },
+  {
+    titre: "Analyse structurale d’un pont ferroviaire",
+    resume: "Analyse statique par éléments finis d’un pont soumis à des charges mécaniques et au vent.",
+    tags: ["Abaqus", "Éléments finis", "2e année"],
+    details: [
+      "Analyse structurale statique d’un pont ferroviaire sous charges mécaniques et de vent, par éléments finis avec Abaqus."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/pont-1.jpg", alt: "Déformée du pont sous charge" }
+    ]
+  },
+  {
+    titre: "IA et base de données pour CS Group",
+    resume: "Direction d’une équipe de 10 étudiants pour étudier l’IA et créer une base de données.",
+    tags: ["Gestion d’équipe", "IA", "1re année"],
+    details: [
+      "Projet de 1re année réalisé pour CS Group : j’ai dirigé une équipe de 10 étudiants afin d’étudier l’IA et de créer une base de données."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/cs-group-1.jpg", alt: "Illustration du projet CS Group" }
+    ]
+  },
+  {
+    titre: "Projet tutoré : un stade durable",
+    resume: "Étude des panneaux solaires et des volants d’inertie pour concevoir un stade durable.",
+    tags: ["Énergie", "Essais en laboratoire"],
+    details: [
+      "Étude des panneaux solaires et des volants d’inertie.",
+      "Réalisation de calculs ensuite testés au laboratoire de l’école, afin de concevoir un stade durable."
+    ],
+    lien: null,
+    medias: [
+      { src: "images/stade-durable-1.jpg", alt: "Schéma du stade durable" }
+    ]
+  }
+];
+
+/* ---------- Code du site (pas besoin d’y toucher) ---------- */
+const grid = document.getElementById("projects-grid");
+const modal = document.getElementById("modal");
+const track = document.getElementById("track");
+const countEl = document.getElementById("count");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const WAVE = '<svg viewBox="0 0 64 32" aria-hidden="true"><path d="M0 12q8-8 16 0t16 0 16 0 16 0M0 24q8-8 16 0t16 0 16 0 16 0" fill="none" stroke="#e8f6f4" stroke-width="3" stroke-linecap="round"/></svg>';
+
+function loadMedia(m) {
+  return new Promise(resolve => {
+    if (/\.(mp4|webm)$/i.test(m.src)) {
+      const v = document.createElement("video");
+      v.controls = true; v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata";
+      v.setAttribute("aria-label", m.alt || "");
+      v.onloadedmetadata = () => resolve({ el: v, type: "video" });
+      v.onerror = () => resolve(null);
+      v.src = m.src;
+    } else {
+      const i = new Image();
+      i.alt = m.alt || "";
+      i.onload = () => resolve({ el: i, type: "img", src: m.src });
+      i.onerror = () => resolve(null);
+      i.src = m.src;
+    }
+  });
+}
+
+PROJETS.forEach((p, idx) => {
+  p.loaded = Promise.all(p.medias.map(loadMedia)).then(r => r.filter(Boolean));
+  const card = document.createElement("article");
+  card.className = "proj";
+  card.innerHTML =
+    '<div class="cover">' + WAVE + '</div>' +
+    '<div class="proj-body"><h3>' + p.titre + '</h3><p>' + p.resume + '</p>' +
+    '<div class="tags">' + p.tags.map(t => "<span>" + t + "</span>").join("") + '</div>' +
+    '<button class="more" type="button">En savoir plus</button></div>';
+  card.querySelector(".more").addEventListener("click", () => openProject(idx));
+  grid.appendChild(card);
+  p.loaded.then(items => {
+    const first = items.find(x => x.type === "img");
+    if (!first) return;
+    const img = new Image();
+    img.src = first.src; img.alt = "";
+    card.querySelector(".cover").replaceChildren(img);
+  });
+});
+
+function updateCount() {
+  const n = track.children.length;
+  const i = Math.round(track.scrollLeft / (track.clientWidth || 1)) + 1;
+  countEl.textContent = n > 1 ? i + " / " + n : "";
+}
+function slide(dir) {
+  track.scrollBy({ left: dir * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
+}
+prevBtn.addEventListener("click", () => slide(-1));
+nextBtn.addEventListener("click", () => slide(1));
+track.addEventListener("scroll", updateCount);
+
+async function openProject(idx) {
+  const p = PROJETS[idx];
+  document.getElementById("m-title").textContent = p.titre;
+  document.getElementById("m-tags").innerHTML = p.tags.map(t => "<span>" + t + "</span>").join("");
+  document.getElementById("m-body").innerHTML =
+    p.details.map(d => "<p>" + d + "</p>").join("") +
+    (p.lien ? '<p><a href="' + p.lien.url + '" target="_blank" rel="noopener">' + p.lien.texte + ' →</a></p>' : "");
+  track.replaceChildren();
+  track.scrollLeft = 0;
+  prevBtn.hidden = nextBtn.hidden = true;
+  countEl.textContent = "";
+  modal.showModal();
+  const items = await p.loaded;
+  if (items.length === 0) {
+    const ph = document.createElement("div");
+    ph.className = "slide ph";
+    ph.innerHTML = WAVE + "<p>Images à venir</p>";
+    track.appendChild(ph);
+  } else {
+    items.forEach(it => {
+      const d = document.createElement("div");
+      d.className = "slide";
+      d.appendChild(it.el);
+      track.appendChild(d);
+    });
+  }
+  prevBtn.hidden = nextBtn.hidden = track.children.length < 2;
+  updateCount();
+}
+
+document.getElementById("m-close").addEventListener("click", () => modal.close());
+modal.addEventListener("click", e => { if (e.target === modal) modal.close(); });
+modal.addEventListener("close", () => track.querySelectorAll("video").forEach(v => v.pause()));
+</script>
+
+</body>
+</html>
