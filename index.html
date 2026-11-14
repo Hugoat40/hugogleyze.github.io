@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hugo Gleyze – Portfolio</title>
-<meta name="description" content="Hugo Gleyze, étudiant ingénieur en mécanique des fluides (CFD marine et offshore) : projets, stages et CV.">
+<meta id="meta-desc" name="description" content="Hugo Gleyze, étudiant ingénieur en mécanique des fluides (CFD marine et offshore) : projets, stages et CV.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -81,6 +81,11 @@ dialog::backdrop{background:rgba(3,21,33,.82)}
 .m-text p{margin:.8rem 0}
 .m-text a{color:var(--sand)}
 
+/* Sélecteur de langue */
+.lang{position:fixed;top:.8rem;right:.8rem;z-index:20;display:flex;gap:2px;padding:3px;border-radius:999px;background:var(--sand);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.lang button{font:600 .9rem var(--head);border:0;background:transparent;color:var(--ink);padding:.35rem .85rem;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--foam)}
+
 /* Stages : vraie chronologie */
 .timeline{list-style:none;margin:0;padding:0 0 0 1.6rem;border-left:2px solid var(--surf)}
 .timeline li{position:relative;padding-bottom:2.4rem}
@@ -117,6 +122,11 @@ footer a{margin:0 .6rem}
 </style>
 </head>
 <body>
+
+<div class="lang" role="group" aria-label="Langue / Language">
+  <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+</div>
 
 <header class="hero" id="accueil">
   <div class="wrap">
@@ -253,7 +263,8 @@ footer a{margin:0 .6rem}
    medias : les images (.jpg .png .webp) ou vidéos (.mp4 .webm)
    déposées dans le dossier "images/". La première image sert de
    couverture. Un fichier absent est simplement ignoré.
-   lien : optionnel, ex. { texte: "Voir le code", url: "https://..." }
+   lien : optionnel, ex. { texte: "Voir le code", texte_en: "View the code", url: "https://..." }
+   en : la version anglaise du titre, du résumé et des détails.
    ============================================================ */
 const PROJETS = [
   {
@@ -264,10 +275,11 @@ const PROJETS = [
       "Simulation de la propagation et de la diffraction de la houle autour d’un obstacle avec OpenFOAM.",
       "Comparaison des théories de houle d’Airy et de Stokes d’ordre 2."
     ],
+    en: { titre: "Waves around an obstacle", resume: "Propagation and diffraction of waves around an obstacle, comparing Airy and second-order Stokes wave theories.", details: ["Simulation of wave propagation and diffraction around an obstacle with OpenFOAM.", "Comparison of Airy and second-order Stokes wave theories."] },
     lien: null,
     medias: [
-      { src: "images/houle-obstacle-1.jpg", alt: "Surface libre autour de l’obstacle" },
-      { src: "images/houle-obstacle-2.jpg", alt: "Comparaison Airy / Stokes" }
+      { src: "images/houle-obstacle-1.jpg", alt: "Surface libre autour de l’obstacle", alt_en: "Free surface around the obstacle" },
+      { src: "images/houle-obstacle-2.jpg", alt: "Comparaison Airy / Stokes", alt_en: "Airy / Stokes comparison" }
     ]
   },
   {
@@ -277,9 +289,10 @@ const PROJETS = [
     details: [
       "Implémentation de la méthode SIRW pour séparer les composantes de houle incidente et réfléchie, en Matlab et Python."
     ],
+    en: { titre: "Separating incident and reflected waves", resume: "Implementation of the SIRW method to separate the incident and reflected components of waves.", details: ["Implementation of the SIRW method to separate incident and reflected wave components, in Matlab and Python."] },
     lien: null,
     medias: [
-      { src: "images/sirw-1.jpg", alt: "Résultats de la séparation incidente / réfléchie" }
+      { src: "images/sirw-1.jpg", alt: "Résultats de la séparation incidente / réfléchie", alt_en: "Results of the incident / reflected wave separation" }
     ]
   },
   {
@@ -290,9 +303,10 @@ const PROJETS = [
       "Développement d’un solveur simulant l’écoulement dans un milieu poreux hétérogène grâce à la loi de Darcy.",
       "Méthode des volumes finis en Python, avec un maillage réalisé sous Gmsh."
     ],
+    en: { titre: "Flow in a heterogeneous porous medium", resume: "A Python solver simulating flow through a porous medium using Darcy’s law.", details: ["Development of a solver simulating flow in a heterogeneous porous medium using Darcy’s law.", "Finite volume method in Python, with the mesh built in Gmsh."] },
     lien: null,
     medias: [
-      { src: "images/poreux-1.jpg", alt: "Champ de pression dans le milieu poreux" }
+      { src: "images/poreux-1.jpg", alt: "Champ de pression dans le milieu poreux", alt_en: "Pressure field in the porous medium" }
     ]
   },
   {
@@ -302,9 +316,10 @@ const PROJETS = [
     details: [
       "Analyse structurale statique d’un pont ferroviaire sous charges mécaniques et de vent, par éléments finis avec Abaqus."
     ],
+    en: { titre: "Structural analysis of a railway bridge", resume: "Static finite element analysis of a bridge under mechanical and wind loads.", details: ["Static structural analysis of a railway bridge under mechanical and wind loads, using finite elements in Abaqus."] },
     lien: null,
     medias: [
-      { src: "images/pont-1.jpg", alt: "Déformée du pont sous charge" }
+      { src: "images/pont-1.jpg", alt: "Déformée du pont sous charge", alt_en: "Bridge deformation under load" }
     ]
   },
   {
@@ -314,9 +329,10 @@ const PROJETS = [
     details: [
       "Projet de 1re année réalisé pour CS Group : j’ai dirigé une équipe de 10 étudiants afin d’étudier l’IA et de créer une base de données."
     ],
+    en: { titre: "AI and database project for CS Group", resume: "Led a team of 10 students to study AI and build a database.", details: ["First-year project carried out for CS Group: I led a team of 10 students to study AI and build a database."] },
     lien: null,
     medias: [
-      { src: "images/cs-group-1.jpg", alt: "Illustration du projet CS Group" }
+      { src: "images/cs-group-1.jpg", alt: "Illustration du projet CS Group", alt_en: "Illustration of the CS Group project" }
     ]
   },
   {
@@ -327,14 +343,61 @@ const PROJETS = [
       "Étude des panneaux solaires et des volants d’inertie.",
       "Réalisation de calculs ensuite testés au laboratoire de l’école, afin de concevoir un stade durable."
     ],
+    en: { titre: "Tutored project: a sustainable stadium", resume: "Study of solar panels and flywheels to design a sustainable stadium.", details: ["Study of solar panels and flywheels.", "Calculations later tested in the school’s laboratory in order to design a sustainable stadium."] },
     lien: null,
     medias: [
-      { src: "images/stade-durable-1.jpg", alt: "Schéma du stade durable" }
+      { src: "images/stade-durable-1.jpg", alt: "Schéma du stade durable", alt_en: "Diagram of the sustainable stadium" }
     ]
   }
 ];
 
 /* ---------- Code du site (pas besoin d’y toucher) ---------- */
+// Si tu ajoutes une version anglaise de ton CV, remplace le second "cv.pdf" par "cv-en.pdf".
+const CV_FILES = { fr: "cv.pdf", en: "cv.pdf" };
+const EN = {
+ "Voir mes projets": "See my projects",
+ "Télécharger mon CV": "Download my CV",
+ "Étudiant ingénieur en mécanique des fluides à SeaTech, spécialisé en CFD appliquée aux environnements marins et offshore. À la recherche d’opportunités dans l’éolien offshore.": "Engineering student in fluid mechanics at SeaTech, specializing in CFD applied to marine and offshore environments. Looking for opportunities in offshore wind.",
+ "Projets": "Projects",
+ "Stages": "Internships",
+ "Centres d’intérêt": "Interests",
+ "Projets d’école": "School projects",
+ "Mai – Août 2026 · stage d’un mois": "May – August 2026 · one-month internship",
+ "Stage de recherche, NTNU": "Research internship, NTNU",
+ "Trondheim, Norvège · groupe Environmental and Fluid Mechanics": "Trondheim, Norway · Environmental and Fluid Mechanics group",
+ "Contribution à un pipeline de visualisation reliant le solveur CFD REEF3D à Blender : réalisation et analyse de simulations hydrodynamiques, création d’effets d’écume et d’embruns procéduraux, et amélioration du code Python du pipeline (corrections, nouveaux formats).": "Contributed to a visualization pipeline linking the REEF3D CFD solver to Blender: running and analyzing hydrodynamic simulations, creating procedural foam and spray effects, and improving the pipeline’s Python code (bug fixes, new file formats).",
+ "Juillet – Août 2025": "July – August 2025",
+ "Stage à l’accueil, ESCF Surf School": "Front-desk internship, ESCF Surf School",
+ "Relation client, pratique des langues et gestion du stress dans un environnement à fort renouvellement.": "Customer relations, language practice and stress management in a fast-paced environment with high customer turnover.",
+ "Échecs": "Chess",
+ "Course à pied": "Running",
+ "Randonnée": "Hiking",
+ "Club d’échecs de La Garde": "La Garde chess club",
+ "Association sportive de SeaTech": "SeaTech sports association",
+ "Formation": "Education",
+ "2024 – aujourd’hui · SeaTech, Toulon": "2024 – present · SeaTech, Toulon",
+ "Diplôme d’ingénieur, master en mécanique des fluides numérique (CFD), Eau, Air et Climat / dispersion d’un polluant atmosphérique.": "Engineering degree, master’s in computational fluid dynamics (CFD), Water, Air and Climate / atmospheric pollutant dispersion.",
+ "Classe préparatoire PCSI/PC, spécialité physique-chimie.": "Preparatory classes for engineering schools (PCSI/PC), physics-chemistry track.",
+ "Baccalauréat, mention Très Bien.": "French baccalauréat (high school diploma), with highest honors.",
+ "Compétences": "Skills",
+ "Méthodes numériques : volumes finis, éléments finis, modélisation de la turbulence.": "Numerical methods: finite volumes, finite elements, turbulence modeling.",
+ "Langues": "Languages",
+ "Français : langue maternelle": "French: native",
+ "Anglais : C1, TOEIC 950/990": "English: C1, TOEIC 950/990",
+ "Espagnol : B2": "Spanish: B2",
+ "Autres expériences": "Other experience",
+ "2024 – aujourd’hui · Complétude (Anacours), Toulon": "2024 – present · Complétude (Anacours), Toulon",
+ "Soutien scolaire en maths et en physique pour collégiens et lycéens.": "Math and physics tutoring for middle and high school students.",
+ "2018 – 2019 · Bénévolat, Ondres": "2018 – 2019 · Volunteering, Ondres",
+ "Cofondateur et trésorier d’une association de jeunes qui collectait des fonds pour les vacances d’enfants défavorisés.": "Co-founder and treasurer of a youth association raising funds for holidays for disadvantaged children.",
+ "Télécharger le CV en PDF": "Download my CV as a PDF"
+};
+const TAGS_EN = {"Houle": "Waves", "2e année": "2nd year", "1re année": "1st year", "Volumes finis": "Finite volumes", "Éléments finis": "Finite elements", "Gestion d’équipe": "Team leadership", "IA": "AI", "Énergie": "Energy", "Essais en laboratoire": "Lab testing"};
+const UI = {
+  fr: { more: "En savoir plus", close: "Fermer", prev: "Image précédente", next: "Image suivante", track: "Images du projet", soon: "Images à venir", nav: "Navigation principale", desc: "Hugo Gleyze, étudiant ingénieur en mécanique des fluides (CFD marine et offshore) : projets, stages et CV." },
+  en: { more: "Learn more", close: "Close", prev: "Previous image", next: "Next image", track: "Project images", soon: "Images coming soon", nav: "Main navigation", desc: "Hugo Gleyze, fluid mechanics engineering student (marine and offshore CFD): projects, internships and CV." }
+};
+
 const grid = document.getElementById("projects-grid");
 const modal = document.getElementById("modal");
 const track = document.getElementById("track");
@@ -344,36 +407,52 @@ const nextBtn = document.getElementById("next");
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const WAVE = '<svg viewBox="0 0 64 32" aria-hidden="true"><path d="M0 12q8-8 16 0t16 0 16 0 16 0M0 24q8-8 16 0t16 0 16 0 16 0" fill="none" stroke="#e8f6f4" stroke-width="3" stroke-linecap="round"/></svg>';
 
+let lang = "fr", current = null, currentItems = [];
+const t = (p, k) => (lang === "en" && p.en && p.en[k]) || p[k];
+const tag = x => (lang === "en" && TAGS_EN[x]) || x;
+const tagsHTML = p => p.tags.map(x => "<span>" + tag(x) + "</span>").join("");
+
+/* Textes statiques de la page : on mémorise le français, on traduit à la demande */
+const textNodes = [];
+const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+  acceptNode: n => (!n.nodeValue.trim() || n.parentElement.closest("script,dialog,#projects-grid,.lang"))
+    ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+});
+while (walker.nextNode()) { walker.currentNode._fr = walker.currentNode.nodeValue; textNodes.push(walker.currentNode); }
+
 function loadMedia(m) {
   return new Promise(resolve => {
     if (/\.(mp4|webm)$/i.test(m.src)) {
       const v = document.createElement("video");
       v.controls = true; v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata";
-      v.setAttribute("aria-label", m.alt || "");
-      v.onloadedmetadata = () => resolve({ el: v, type: "video" });
+      v.onloadedmetadata = () => resolve({ el: v, type: "video", m });
       v.onerror = () => resolve(null);
       v.src = m.src;
     } else {
       const i = new Image();
-      i.alt = m.alt || "";
-      i.onload = () => resolve({ el: i, type: "img", src: m.src });
+      i.onload = () => resolve({ el: i, type: "img", src: m.src, m });
       i.onerror = () => resolve(null);
       i.src = m.src;
     }
   });
 }
 
-PROJETS.forEach((p, idx) => {
-  p.loaded = Promise.all(p.medias.map(loadMedia)).then(r => r.filter(Boolean));
+function fillCard(i) {
+  const p = PROJETS[i], c = p.card;
+  c.querySelector("h3").innerHTML = t(p, "titre");
+  c.querySelector(".proj-body p").innerHTML = t(p, "resume");
+  c.querySelector(".tags").innerHTML = tagsHTML(p);
+  c.querySelector(".more").textContent = UI[lang].more;
+}
+
+PROJETS.forEach((p, i) => {
   const card = document.createElement("article");
   card.className = "proj";
-  card.innerHTML =
-    '<div class="cover">' + WAVE + '</div>' +
-    '<div class="proj-body"><h3>' + p.titre + '</h3><p>' + p.resume + '</p>' +
-    '<div class="tags">' + p.tags.map(t => "<span>" + t + "</span>").join("") + '</div>' +
-    '<button class="more" type="button">En savoir plus</button></div>';
-  card.querySelector(".more").addEventListener("click", () => openProject(idx));
+  card.innerHTML = '<div class="cover">' + WAVE + '</div><div class="proj-body"><h3></h3><p></p><div class="tags"></div><button class="more" type="button"></button></div>';
+  card.querySelector(".more").addEventListener("click", () => openProject(i));
+  p.card = card;
   grid.appendChild(card);
+  p.loaded = Promise.all(p.medias.map(loadMedia)).then(r => r.filter(Boolean));
   p.loaded.then(items => {
     const first = items.find(x => x.type === "img");
     if (!first) return;
@@ -382,6 +461,47 @@ PROJETS.forEach((p, idx) => {
     card.querySelector(".cover").replaceChildren(img);
   });
 });
+
+function fillModal(p) {
+  document.getElementById("m-title").innerHTML = t(p, "titre");
+  document.getElementById("m-tags").innerHTML = tagsHTML(p);
+  const lk = p.lien;
+  document.getElementById("m-body").innerHTML =
+    t(p, "details").map(d => "<p>" + d + "</p>").join("") +
+    (lk ? '<p><a href="' + lk.url + '" target="_blank" rel="noopener">' + ((lang === "en" && lk.texte_en) || lk.texte) + ' →</a></p>' : "");
+}
+
+function refreshMedia() {
+  currentItems.forEach(it => {
+    const a = (lang === "en" && it.m.alt_en) || it.m.alt || "";
+    if (it.type === "video") it.el.setAttribute("aria-label", a); else it.el.alt = a;
+  });
+  const ph = track.querySelector(".ph p");
+  if (ph) ph.textContent = UI[lang].soon;
+}
+
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));
+  textNodes.forEach(n => {
+    const fr = n._fr, k = fr.trim();
+    n.nodeValue = (l === "en" && EN[k]) ? fr.replace(k, () => EN[k]) : fr;
+  });
+  document.querySelectorAll("a[download]").forEach(a => {
+    a.href = CV_FILES[l];
+    if (l === "en" && CV_FILES.en === CV_FILES.fr && a.firstChild) a.firstChild.nodeValue += " (in French)";
+  });
+  document.getElementById("meta-desc").content = UI[l].desc;
+  document.querySelector("nav").setAttribute("aria-label", UI[l].nav);
+  document.getElementById("m-close").setAttribute("aria-label", UI[l].close);
+  prevBtn.setAttribute("aria-label", UI[l].prev);
+  nextBtn.setAttribute("aria-label", UI[l].next);
+  track.setAttribute("aria-label", UI[l].track);
+  PROJETS.forEach((p, i) => fillCard(i));
+  if (current !== null) { fillModal(PROJETS[current]); refreshMedia(); }
+}
 
 function updateCount() {
   const n = track.children.length;
@@ -397,21 +517,20 @@ track.addEventListener("scroll", updateCount);
 
 async function openProject(idx) {
   const p = PROJETS[idx];
-  document.getElementById("m-title").textContent = p.titre;
-  document.getElementById("m-tags").innerHTML = p.tags.map(t => "<span>" + t + "</span>").join("");
-  document.getElementById("m-body").innerHTML =
-    p.details.map(d => "<p>" + d + "</p>").join("") +
-    (p.lien ? '<p><a href="' + p.lien.url + '" target="_blank" rel="noopener">' + p.lien.texte + ' →</a></p>' : "");
+  current = idx; currentItems = [];
+  fillModal(p);
   track.replaceChildren();
   track.scrollLeft = 0;
   prevBtn.hidden = nextBtn.hidden = true;
   countEl.textContent = "";
   modal.showModal();
   const items = await p.loaded;
+  if (current !== idx) return;
+  currentItems = items;
   if (items.length === 0) {
     const ph = document.createElement("div");
     ph.className = "slide ph";
-    ph.innerHTML = WAVE + "<p>Images à venir</p>";
+    ph.innerHTML = WAVE + "<p></p>";
     track.appendChild(ph);
   } else {
     items.forEach(it => {
@@ -421,13 +540,20 @@ async function openProject(idx) {
       track.appendChild(d);
     });
   }
+  refreshMedia();
   prevBtn.hidden = nextBtn.hidden = track.children.length < 2;
   updateCount();
 }
 
 document.getElementById("m-close").addEventListener("click", () => modal.close());
 modal.addEventListener("click", e => { if (e.target === modal) modal.close(); });
-modal.addEventListener("close", () => track.querySelectorAll("video").forEach(v => v.pause()));
+modal.addEventListener("close", () => { current = null; track.querySelectorAll("video").forEach(v => v.pause()); });
+document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+
+let start = null;
+try { start = localStorage.getItem("lang"); } catch (e) {}
+if (start !== "fr" && start !== "en") start = (navigator.language || "fr").toLowerCase().startsWith("fr") ? "fr" : "en";
+setLang(start);
 </script>
 
 </body>
